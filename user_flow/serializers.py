@@ -10,5 +10,5 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def validate_password(self, password):
-        return make_password(password)       
+        return make_password(password)
         
