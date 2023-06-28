@@ -8,14 +8,16 @@ import requests
 from rest_framework import status
 
 
-# Create your views here.
+# User Get
 class RegisterUser(APIView):
     
     def get(self):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response({"message": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-    
+      
+# User Add 
+class UserAdd(APIView):
     def post(self, request):
         try:
             user_email = request.data["email"].lower()
@@ -31,12 +33,15 @@ class RegisterUser(APIView):
             else:
                 return Response({"message": user.errors, "data": None}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"message": f"{e}", "data": None}, status=status.HTTP_400_BAD_REQUEST)
-            
+            return Response({"message": f"{e}", "data": None}, status=status.HTTP_400_BAD_REQUEST)  
+     
+# User Upadte
+class UserUpdate(APIView):
+    
     def patch(self, request, id):
         try:
             user = User.objects.get(id=id)
-            user = UserSerializer(user, data=request.data, partial=True)
+            user = UserUpdateSerializer(user, data=request.data, partial=True)
             
             if user.is_valid():
                 user.save()
@@ -45,11 +50,14 @@ class RegisterUser(APIView):
                 return Response({"message": user.errors, "data": None}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"message": f"{e}", "data": None}, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, id):
+        
+# User Delete
+class UserDelete(APIView):
+    
+    def delete(self, id):
         try:
             user = User.objects.get(id=id)
             user.delete()
             return Response({"message": "success", "data": None}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"message": f"{e}", "data": None}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": f"{e}", "data": None}, status=status.HTTP_400_BAD_REQUEST)     
