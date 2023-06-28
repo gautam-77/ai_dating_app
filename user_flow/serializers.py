@@ -16,12 +16,20 @@ class UserSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['name']
+        fields = ['name', 'email']
    
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'password']
+    
+    def validate_password(self, password):
+        return make_password(password)
+
+class UserPasswordResetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['password']
     
     def validate_password(self, password):
         return make_password(password)
