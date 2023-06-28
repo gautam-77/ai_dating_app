@@ -4,12 +4,10 @@ from rest_framework.response import Response
 from django.core import serializers
 from django.contrib.auth.hashers import check_password
 from .thread import Thradpooltest
-# import django.contrib.auth.password_validation as validators
 
 from  .serializers import *
 import requests
 from rest_framework import status
-
 
 
 class UserGet(APIView):
@@ -68,8 +66,6 @@ class UserLogin(APIView):
         
         try:
             if user is not None:
-                # print("thss-=-=-==-")
-                # return Response({"message": "user is not exists", "data": None}, status=status.HTTP_400_BAD_REQUEST)
                 if user.email == email and  check_password(password, user.password):
                     print("ths si s-=-=-==-")
                     session = request.session['email'] = user.email
@@ -79,8 +75,7 @@ class UserLogin(APIView):
             return Response({"message": "invalid credentials", "data": None}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"message": f"{e}", "data": None}, status=status.HTTP_400_BAD_REQUEST)   
-                    
-                    
+                                      
 class Resetpassword(APIView):
     def patch(self, request):
         email = request.data.get('email')
