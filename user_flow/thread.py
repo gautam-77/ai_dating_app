@@ -10,7 +10,6 @@ from concurrent.futures import  ThreadPoolExecutor
 import random
 
 class Thradpooltest(threading.Thread):
-    
     def __init__(self, *args):
         self.args = args 
         threading.Thread.__init__(self)
